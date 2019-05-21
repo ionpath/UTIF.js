@@ -46,9 +46,10 @@ this.K(a):this.J(a);if(f)return this.H(a)}return a}}; UTIF.JpegDecoder=g})()})()
 //UTIF.JpegDecoder = PDFJS.JpegImage;
 
 
-UTIF.encodeImage = function(rgba, w, h, metadata, descriptionSize=0)
-{
-	var offset = 1000 + descriptionSize;
+UTIF.encodeImage = function(rgba, w, h, metadata, descriptionSize)
+{	
+	var myDescriptionSize = descriptionSize ? descriptionSize : 0;
+	var offset = 1000 + myDescriptionSize;
 	var idf = { "t256":[w], "t257":[h], "t258":[8,8,8,8], "t259":[1], "t262":[2], "t270": ["{}"], "t273":[offset], // strips offset
 				"t277":[4], "t278":[h], /* rows per strip */          "t279":[w*h*4], // strip byte counts
 				"t282":[1], "t283":[1], "t284":[1], "t286":[0], "t287":[0], "t296":[1], "t305": ["Photopea (UTIF.js)"], "t338":[1]
@@ -63,9 +64,11 @@ UTIF.encodeImage = function(rgba, w, h, metadata, descriptionSize=0)
 	return data.buffer;
 };
 
-UTIF.encodeGrayscale = function(rgba, w, h, metadata, descriptionSize=0)
+UTIF.encodeGrayscale = function(rgba, w, h, metadata, descriptionSize)
 {
-	var offset = 1000 + descriptionSize;
+	var myDescriptionSize = descriptionSize ? descriptionSize : 0;
+
+	var offset = 1000 + myDescriptionSize;
 	// differences from encodeImage:
 	// t258 (BitsPerSample) is 8-bit, 1 channel
 	// t262 (PhotometricInterpretation) PHOTOMETRIC_MINISBLACK = 1
